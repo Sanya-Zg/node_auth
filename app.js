@@ -2,12 +2,15 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
+import authRoutes from './routes/authRoutes.js';
+
 dotenv.config();
 
 const app = express();
 
 // middleware
 app.use(express.static('public'));
+
 
 // view engine
 app.set('view engine', 'ejs');
@@ -30,3 +33,4 @@ mongoose
 // routes
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', (req, res) => res.render('smoothies'));
+app.use('', authRoutes);
