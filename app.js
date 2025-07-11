@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/authRoutes.js';
-import { requireAuth } from './middleware/authMiddleware.js';
+import { requireAuth, checkUser } from './middleware/authMiddleware.js';
 
 dotenv.config();
 
@@ -34,6 +34,7 @@ mongoose
   });
 
 // routes
+app.use(checkUser);
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
 app.use(authRoutes);
