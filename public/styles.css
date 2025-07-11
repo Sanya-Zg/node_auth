@@ -13,6 +13,9 @@ h1, h2, h3, h4, ul, li, a, p, input, label, button, div, footer{
   font-family: 'Quicksand', sans-serif;
   color: #444;
 }
+h1{
+  margin-left: 20px;
+}
 ul{
   list-style-type: none;
 }
@@ -25,7 +28,7 @@ nav{
   align-items: flex-end;
   margin-bottom: 120px;
   background-color: #adc0a0;
-  border-radius: 10px;
+  border-radius: 17px;
 }
 nav ul{
   display: flex;
