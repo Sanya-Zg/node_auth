@@ -3,8 +3,17 @@ import jwt from 'jsonwebtoken';
 
 // handle errors
 const handleError = (err) => {
-  console.log(err.message, err.code);
+  // console.log(err.message, err.code);
   let errors = { email: '', password: '' };
+
+  // incorrect email
+  if (err.message === 'incorrect email') {
+    errors.email = 'that emeil is not registered';
+  }
+  // incorrect password
+  if (err.message === 'incorrect password') {
+    errors.password = 'that password is incorrect';
+  }
 
   // duplicate error code
   if (err.code === 11000) {
@@ -46,7 +55,7 @@ export const signup_post = async (req, res) => {
       httpOnly: true,
       maxAge: maxAge * 1000,
     });
-    res.status(201).json({user: user._id});
+    res.status(201).json({ user: user._id });
   } catch (error) {
     const errors = handleError(error);
     res.status(400).json({ errors });
@@ -55,5 +64,18 @@ export const signup_post = async (req, res) => {
 };
 
 export const login_post = async (req, res) => {
-  res.send('user login');
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.login(email, password);
+    const token = createToken(user._id);
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      maxAge: maxAge * 1000,
+    });
+    res.status(200).json({ user: user._id });
+  } catch (error) {
+    const errors = handleError(error);
+    res.status(400).json({ errors });
+  }
 };
